@@ -7,7 +7,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import babel from '@rollup/plugin-babel'
-import { terser } from 'rollup-plugin-terser'
+import {terser} from '@rollup/plugin-terser'
 
 const name = 'FeiEditor'
 
@@ -26,27 +26,27 @@ const createBaseConfig = () => {
     plugins: [
       peerDepsExternal(),
       vuePlugin({
-        css: true,
+        css: true
       }),
       babel({
         exclude: 'node_modules/**',
         extensions: ['.js', '.jsx', '.vue'],
-        babelHelpers: 'bundled',
+        babelHelpers: 'bundled'
       }),
       resolve({
-        extensions: ['.vue', '.jsx', '.js'],
+        extensions: ['.vue', '.jsx', '.js']
       }),
       commonjs(),
-      json(),
+      json()
     ],
     output: {
       sourcemap: false,
       banner: createBanner(),
       externalLiveBindings: false,
       globals: {
-        vue: 'Vue',
-      },
-    },
+        vue: 'Vue'
+      }
+    }
   }
 }
 
@@ -71,26 +71,26 @@ function createFileName(formatName) {
 const esBundleConfig = {
   plugins: [
     replace({
-      __DEV__: `(process.env.NODE_ENV !== 'production')`,
-    }),
+      __DEV__: `(process.env.NODE_ENV !== 'production')`
+    })
   ],
   output: {
     file: createFileName('.esm'),
-    format: 'es',
-  },
+    format: 'es'
+  }
 }
 
 // es-browser
 const esBrowserConfig = {
   plugins: [
     replace({
-      __DEV__: true,
-    }),
+      __DEV__: true
+    })
   ],
   output: {
     file: createFileName('.esm-browser'),
-    format: 'es',
-  },
+    format: 'es'
+  }
 }
 
 // es-browser.min
@@ -98,39 +98,39 @@ const esBrowserProdConfig = {
   plugins: [
     terser(),
     replace({
-      __DEV__: false,
-    }),
+      __DEV__: false
+    })
   ],
   output: {
     file: createFileName('.esm-browser.min'),
-    format: 'es',
-  },
+    format: 'es'
+  }
 }
 
 // commonjs
 const cjsConfig = {
   plugins: [
     replace({
-      __DEV__: true,
-    }),
+      __DEV__: true
+    })
   ],
   output: {
     file: createFileName('.common'),
-    format: 'cjs',
-  },
+    format: 'cjs'
+  }
 }
 // cjs.prod
 const cjsProdConfig = {
   plugins: [
     terser(),
     replace({
-      __DEV__: false,
-    }),
+      __DEV__: false
+    })
   ],
   output: {
     file: createFileName('.common.min'),
-    format: 'cjs',
-  },
+    format: 'cjs'
+  }
 }
 
 // global
@@ -138,14 +138,14 @@ const globalConfig = {
   plugins: [
     replace({
       __DEV__: true,
-      'process.env.NODE_ENV': true,
-    }),
+      'process.env.NODE_ENV': true
+    })
   ],
   output: {
     file: createFileName(''),
     format: 'iife',
-    name,
-  },
+    name
+  }
 }
 // global.prod
 const globalProdConfig = {
@@ -153,14 +153,14 @@ const globalProdConfig = {
     terser(),
     replace({
       __DEV__: false,
-      'process.env.NODE_ENV': true,
-    }),
+      'process.env.NODE_ENV': true
+    })
   ],
   output: {
     file: createFileName('.min'),
     format: 'iife',
-    name,
-  },
+    name
+  }
 }
 
 const prodFormatConfigs = [
@@ -170,7 +170,7 @@ const prodFormatConfigs = [
   cjsConfig,
   cjsProdConfig,
   globalConfig,
-  globalProdConfig,
+  globalProdConfig
 ]
 const devFormatConfigs = [esBundleConfig]
 

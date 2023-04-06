@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    MIT Licensed | Copyright © 2021-present fei-editor
+    MIT Licensed | Copyright © 2023-present fei-editor
   </footer>
 </template>
 

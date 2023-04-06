@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const { VueLoaderPlugin } = require('vue-loader')
+const {VueLoaderPlugin} = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
@@ -11,25 +11,35 @@ const config = {
   mode: isProd ? 'production' : 'development',
   devtool: 'eval-source-map',
   entry: {
-    app: './examples/main.js',
+    app: './examples/main.js'
   },
   output: {
     path: path.resolve(__dirname, '../docs'),
     publicPath: isProd ? '' : '/',
     filename: 'js/[name].js',
-    chunkFilename: 'js/[name].[hash:7].js',
+    chunkFilename: 'js/[name].[hash:7].js'
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        use: 'vue-loader',
+        use: 'vue-loader'
       },
       {
         test: /\.(js)x?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
+/*      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [ '@babel/preset-env' ]
+          }
+        },
+        include: [path.resolve('src'), path.resolve('examples'),path.resolve('node_modules/f-ui-one')]
+      },*/
       {
         test: /\.md$/,
         use: [
@@ -37,25 +47,25 @@ const config = {
             loader: 'vue-loader',
             options: {
               compilerOptions: {
-                preserveWhitespace: false,
-              },
-            },
+                preserveWhitespace: false
+              }
+            }
           },
           {
-            loader: path.resolve(__dirname, './md-loader/index.js'),
-          },
-        ],
+            loader: path.resolve(__dirname, './md-loader/index.js')
+          }
+        ]
       },
       {
         test: /\.styl(us)?$/,
-        use: ['style-loader', 'css-loader', 'stylus-loader'],
+        use: ['style-loader', 'css-loader', 'stylus-loader']
       },
       {
         test: /\.css$/,
         use: [
           isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-          'css-loader',
-        ],
+          'css-loader'
+        ]
       },
       {
         test: /\.(svg|otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,
@@ -63,30 +73,30 @@ const config = {
         // todo: 这种写法有待调整
         options: {
           limit: 10000,
-          name: path.posix.join('static', '[name].[hash:7].[ext]'),
-        },
-      },
-    ],
+          name: path.posix.join('static', '[name].[hash:7].[ext]')
+        }
+      }
+    ]
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       vue: 'vue',
       'fei-editor': '../src/index.js',
-      examples: path.resolve(__dirname),
-    },
+      examples: path.resolve(__dirname)
+    }
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: './examples/index.html',
       filename: './index.html',
-      favicon: './examples/favicon.ico',
-    }),
+      favicon: './examples/favicon.ico'
+    })
     // new BundleAnalyzerPlugin(),
   ],
   performance: {
-    hints: false,
+    hints: false
   },
   devServer: {
     inline: true,
@@ -102,16 +112,16 @@ const config = {
     splitChunks: {},
     minimize: true,
     minimizer: [
-      new CssMinimizerPlugin(),
-    ],
-  },
+      new CssMinimizerPlugin()
+    ]
+  }
 }
 
 if (isProd) {
   config.plugins.push(
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-    }),
+      filename: 'css/[name].css'
+    })
   )
 
   config.optimization.splitChunks = {
@@ -125,21 +135,21 @@ if (isProd) {
       default: {
         minChunks: 2,
         priority: -20,
-        reuseExistingChunk: true,
+        reuseExistingChunk: true
       },
       vendors: {
         name: 'vendors',
         test: /[\\/]node_modules[\\/]/,
         priority: -10,
-        chunks: 'all',
-      },
-    },
+        chunks: 'all'
+      }
+    }
   }
 }
 config.plugins.push(
   new webpack.DefinePlugin({
     __VUE_OPTIONS_API__: JSON.stringify(true),
-    __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
-  }),
+    __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+  })
 )
 module.exports = config

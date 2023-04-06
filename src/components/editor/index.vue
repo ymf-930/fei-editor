@@ -6,7 +6,7 @@
 import * as ace from 'brace'
 
 export default {
-  name: 'BAceEditor',
+  name: 'FeiEditor',
   props: {
     modelValue: String,
     lang: {

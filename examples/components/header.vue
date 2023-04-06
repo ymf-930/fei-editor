@@ -5,7 +5,7 @@
         <div class="logo">
           <img src="../assets/images/logo/bin-ui-next-02.svg" class="icon" alt="icon"/>
           <div class="text">
-            <h2>BIN-EDITOR-NEXT</h2>
+            <h2>FEI-EDITOR</h2>
             <p>code editor for vue3</p>
           </div>
         </div>

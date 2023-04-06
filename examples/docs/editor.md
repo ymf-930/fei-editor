@@ -152,14 +152,14 @@
         <f-ace-editor v-model="htmlStr" height="300" lang="html"></f-ace-editor>
       </f-col>
       <f-col span="8">
-        <f-tag type="success">css</b-tag>
-        <b-ace-editor v-model="cssStr" height="300" lang="css"></b-ace-editor>
-      </b-col>
-      <b-col span="8">
-        <b-tag type="warning">stylus</b-tag>
-        <b-ace-editor v-model="stylusStr" height="300" lang="stylus"></b-ace-editor>
-      </b-col>
-    </b-row>
+        <f-tag type="success">css</f-tag>
+        <f-ace-editor v-model="cssStr" height="300" lang="css"></f-ace-editor>
+      </f-col>
+      <f-col span="8">
+        <f-tag type="warning">stylus</f-tag>
+        <f-ace-editor v-model="stylusStr" height="300" lang="stylus"></f-ace-editor>
+      </f-col>
+    </f-row>
   </div>
 </template>
 <script>
