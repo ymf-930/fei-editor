@@ -41,6 +41,11 @@ const config = {
         include: [path.resolve('src'), path.resolve('examples'),path.resolve('node_modules/f-ui-one')]
       },*/
       {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: "javascript/auto"
+      },
+      {
         test: /\.md$/,
         use: [
           {
