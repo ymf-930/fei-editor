@@ -15,7 +15,7 @@ fei-editor vue3+版本
 <!-- import Vue.js -->
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <!-- import fei-editor -->
-<script src="https://unpkg.com/fei-editor@1.0.0/lib/index.min.js"></script>
+<script src="https://unpkg.com/fei-editor@0.0.1/lib/index.min.js"></script>
 ```
 
 ### npm 安装

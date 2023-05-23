@@ -3,7 +3,7 @@
     <div class="header-container">
       <div class="left" style="width: 580px" flex="main:justify cross:center">
         <div class="logo">
-          <img src="../assets/images/logo/bin-ui-next-02.svg" class="icon" alt="icon"/>
+          <img src="../assets/images/logo/fei-editor.svg" class="icon" alt="icon"/>
           <div class="text">
             <h2>FEI-EDITOR</h2>
             <p>code editor for vue3</p>
@@ -15,6 +15,11 @@
           <span class="search" @click="openSearch"><i class="f-iconfont f-icon-search"></i></span>
         </f-tooltip>
         <router-link :to="{ name: 'guide' }" class="active">指南</router-link>
+        <a
+          href="https://gitee.com/ymf930/fei-editor"
+          class="gitee"
+          target="_blank"
+        >Gitee</a>
         <a
           href="https://github.com/ymf-930/fei-editor"
           class="github"
@@ -111,6 +116,9 @@ export default {
         line-height: 1.5;
         padding: 0 22px;
         font-size: 15px;
+        &.gitee {
+          color: #636363;
+        }
         &.github {
           color: #636363;
         }

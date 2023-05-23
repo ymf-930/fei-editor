@@ -26,24 +26,9 @@ const config = {
         use: 'vue-loader'
       },
       {
-        test: /\.(js)x?$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-      },
-/*      {
-        test: /\.js$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [ '@babel/preset-env' ]
-          }
-        },
-        include: [path.resolve('src'), path.resolve('examples'),path.resolve('node_modules/f-ui-one')]
-      },*/
-      {
-        test: /\.mjs$/,
-        include: /node_modules/,
-        type: "javascript/auto"
       },
       {
         test: /\.md$/,
@@ -104,14 +89,17 @@ const config = {
     hints: false
   },
   devServer: {
-    inline: true,
     hot: true,
-    stats: 'minimal',
     port: 8087,
-    publicPath: '/',
-    contentBase: __dirname,
-    overlay: true,
-    open: true
+    static: {
+      directory: __dirname,
+      publicPath: '/',
+    },
+    client: {
+      progress: true,
+      overlay: true,
+    },
+    open: true,
   },
   optimization: {
     splitChunks: {},

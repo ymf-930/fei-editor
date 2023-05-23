@@ -9,9 +9,9 @@ module.exports = {
     ],
   ],
   plugins: [
-    '@vue/babel-plugin-jsx',
-    // 链判断运算符支持 ?.
-    '@babel/plugin-proposal-optional-chaining'
+    ['@babel/plugin-transform-runtime', {
+      'regenerator': true,
+    }],
   ],
   env: {
     utils: {
@@ -26,7 +26,7 @@ module.exports = {
       ],
       plugins: [
         [
-          'module-resolver',
+          'babel-plugin-module-resolver',
           {
             root: ['fei-editor'],
             alias: { 'fei-editor/src': 'fei-editor/lib' },
@@ -34,5 +34,5 @@ module.exports = {
         ],
       ],
     },
-  },
+  }
 }
