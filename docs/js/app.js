@@ -14,16 +14,16 @@
 
 var map = {
 	"./editor.md": [
-		8261,
+		6372,
 		216,
 		604
 	],
 	"./guide.md": [
-		9487,
+		2460,
 		320
 	],
 	"./options.md": [
-		4633,
+		7907,
 		550
 	]
 };
@@ -131,7 +131,7 @@ module.exports = JSON.parse('{"开发指南":[{"name":"guide","path":"/guide","d
 /***/ (function(module) {
 
 "use strict";
-module.exports = JSON.parse('{"name":"fei-editor","description":"基于vue的代码编辑器插件","version":"0.0.1","keywords":["fei-editor","vue3","components"],"author":"yangmengfei","files":["lib","src"],"main":"lib/fei-editor.common.js","module":"src/components/editor/index.vue","unpkg":"lib/fei-editor.js","homepage":"https://ymf930.gitee.io/fei-editor/","private":false,"license":"MIT","scripts":{"dev":"webpack-dev-server --config build/webpack.dev.js","build:demo":"rimraf docs && cross-env NODE_ENV=production webpack --config build/webpack.dev.js","build":"yarn clean-lib && yarn build:lib","clean-lib":"rimraf lib","build:lib":"rollup --config build/rollup.config.mjs --bundleConfigAsCjs","lint":"eslint ./src --ext .vue,.js,.ts","lint-fix":"eslint --fix ./src --ext .vue,.js,.ts"},"dependencies":{"brace":"^0.11.1"},"peerDependencies":{"vue":"^3.2.47"},"devDependencies":{"@babel/cli":"^7.21.5","@babel/core":"^7.21.8","@babel/eslint-parser":"^7.21.8","@babel/plugin-transform-runtime":"^7.21.4","@babel/preset-env":"^7.21.5","@babel/runtime":"^7.21.5","@rollup/plugin-babel":"^6.0.3","@rollup/plugin-commonjs":"^25.0.0","@rollup/plugin-json":"^6.0.0","@rollup/plugin-node-resolve":"^15.0.2","@rollup/plugin-replace":"^5.0.2","@rollup/plugin-terser":"^0.4.3","@types/markdown-it":"^12.2.3","@vue/babel-plugin-jsx":"^1.0.0","@vue/compiler-sfc":"^3.3.4","babel-loader":"^9.1.2","babel-plugin-module-resolver":"^5.0.0","babel-plugin-transform-class-properties":"^6.24.1","cross-env":"^7.0.2","css-loader":"^6.7.4","css-minimizer-webpack-plugin":"^5.0.0","eslint":"^8.41.0","eslint-plugin-vue":"^9.14.0","f-ui-one":"^1.0.5","file-loader":"^6.0.0","file-save":"^0.2.0","gulp":"^4.0.2","gulp-autoprefixer":"^8.0.0","gulp-cssmin":"^0.2.0","gulp-stylus":"^3.0.0","highlight.js":"^11.8.0","html-webpack-plugin":"^5.5.1","markdown-it":"^13.0.1","markdown-it-anchor":"^8.6.7","markdown-it-chain":"^1.3.0","markdown-it-container":"^3.0.0","mini-css-extract-plugin":"^2.7.6","postcss":"^8.4.23","prettier":"^2.8.8","rimraf":"^5.0.1","rollup":"^3.23.0","rollup-plugin-css-only":"^4.3.0","rollup-plugin-peer-deps-external":"^2.2.4","rollup-plugin-postcss":"^4.0.2","rollup-plugin-vue":"^6.0.0-beta.11","style-loader":"^3.3.3","stylus":"^0.59.0","stylus-loader":"7.1.0","tinycolor2":"^1.4.2","transliteration":"^2.2.0","url-loader":"^4.1.1","vue":"^3.3.4","vue-loader":"^17.1.1","vue-router":"^4.2.1","vue-template-compiler":"^2.6.12","webpack":"^5.83.1","webpack-bundle-analyzer":"^4.8.0","webpack-cli":"^5.1.1","webpack-dev-server":"^4.15.0"}}');
+module.exports = JSON.parse('{"name":"fei-editor","description":"基于vue的代码编辑器插件","version":"0.0.2","keywords":["fei-editor","vue3","components"],"author":"yangmengfei","files":["lib","src"],"main":"lib/fei-editor.common.js","module":"src/components/editor/index.vue","unpkg":"lib/fei-editor.js","homepage":"https://ymf930.gitee.io/fei-editor/","private":false,"license":"MIT","scripts":{"dev":"webpack-dev-server --config build/webpack.dev.js","build:demo":"rimraf docs && cross-env NODE_ENV=production webpack --config build/webpack.dev.js","build":"yarn clean-lib && yarn build:lib","clean-lib":"rimraf lib","build:lib":"rollup --config build/rollup.config.mjs --bundleConfigAsCjs","lint":"eslint ./src --ext .vue,.js,.ts","lint-fix":"eslint --fix ./src --ext .vue,.js,.ts"},"dependencies":{"brace":"^0.11.1"},"peerDependencies":{"vue":"^3.2.47"},"devDependencies":{"@babel/cli":"^7.21.5","@babel/core":"^7.21.8","@babel/eslint-parser":"^7.21.8","@babel/plugin-transform-runtime":"^7.21.4","@babel/preset-env":"^7.21.5","@babel/runtime":"^7.21.5","@rollup/plugin-babel":"^6.0.3","@rollup/plugin-commonjs":"^25.0.0","@rollup/plugin-json":"^6.0.0","@rollup/plugin-node-resolve":"^15.0.2","@rollup/plugin-replace":"^5.0.2","@rollup/plugin-terser":"^0.4.3","@types/markdown-it":"^12.2.3","@vue/babel-plugin-jsx":"^1.0.0","@vue/compiler-sfc":"^3.3.4","babel-loader":"^9.1.2","babel-plugin-module-resolver":"^5.0.0","babel-plugin-transform-class-properties":"^6.24.1","cross-env":"^7.0.2","css-loader":"^6.7.4","css-minimizer-webpack-plugin":"^5.0.0","eslint":"^8.41.0","eslint-plugin-vue":"^9.14.0","f-ui-one":"^1.0.5","file-loader":"^6.0.0","file-save":"^0.2.0","gulp":"^4.0.2","gulp-autoprefixer":"^8.0.0","gulp-cssmin":"^0.2.0","gulp-stylus":"^3.0.0","highlight.js":"^11.8.0","html-webpack-plugin":"^5.5.1","markdown-it":"^13.0.1","markdown-it-anchor":"^8.6.7","markdown-it-chain":"^1.3.0","markdown-it-container":"^3.0.0","mini-css-extract-plugin":"^2.7.6","postcss":"^8.4.23","prettier":"^2.8.8","rimraf":"^5.0.1","rollup":"^3.23.0","rollup-plugin-css-only":"^4.3.0","rollup-plugin-peer-deps-external":"^2.2.4","rollup-plugin-postcss":"^4.0.2","rollup-plugin-vue":"^6.0.0-beta.11","style-loader":"^3.3.3","stylus":"^0.59.0","stylus-loader":"7.1.0","tinycolor2":"^1.4.2","transliteration":"^2.2.0","url-loader":"^4.1.1","vue":"^3.3.4","vue-loader":"^17.1.1","vue-router":"^4.2.1","vue-template-compiler":"^2.6.12","webpack":"^5.83.1","webpack-bundle-analyzer":"^4.8.0","webpack-cli":"^5.1.1","webpack-dev-server":"^4.15.0"}}');
 
 /***/ })
 
@@ -263,7 +263,7 @@ module.exports = JSON.parse('{"name":"fei-editor","description":"基于vue的代
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	!function() {
-/******/ 		__webpack_require__.h = function() { return "058840e4ef2a8743db10"; }
+/******/ 		__webpack_require__.h = function() { return "0099969a7055e53e4591"; }
 /******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/global */

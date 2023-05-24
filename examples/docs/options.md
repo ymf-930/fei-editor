@@ -12,7 +12,7 @@
     </div>
 </template>
 
-ace-editor 配置项列表说明
+fei-editor 配置项列表说明
 
 ### editor选项
 

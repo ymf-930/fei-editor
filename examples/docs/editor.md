@@ -11,7 +11,7 @@
 <template>
   <f-row>
     <f-col span="12">
-      <f-ace-editor
+      <fei-editor
           v-model="jsonStr"
           lang="json"
           width="100%"
@@ -19,7 +19,7 @@
           :theme="theme"
           :readonly="readonly"
           :font-size="fontSize"
-      ></f-ace-editor>
+      ></fei-editor>
     </f-col>
     <f-col span="12">
       <div class="pl-15">
@@ -42,7 +42,7 @@
             <f-button type="primary" @click="handleZip">压缩</f-button>
             <f-button type="primary" @click="handleFormat">格式化</f-button>
             <f-modal v-model="modal" title="弹窗编辑" transition-name="fade-in-linear">
-              <f-ace-editor v-model="jsonStr" height="400"></f-ace-editor>
+              <fei-editor v-model="jsonStr" height="400"></fei-editor>
             </f-modal>
           </div>
         </div>
@@ -119,45 +119,45 @@
     <f-row :gutter="20">
       <f-col span="8">
         <f-tag type="primary">json</f-tag>
-        <f-ace-editor v-model="jsonStr" height="300" lang="json" snippets></f-ace-editor>
+        <fei-editor v-model="jsonStr" height="300" lang="json" snippets></fei-editor>
       </f-col>
       <f-col span="8">
         <f-tag type="success">javascript</f-tag>
-        <f-ace-editor v-model="javascriptStr" height="300" lang="javascript" snippets></f-ace-editor>
+        <fei-editor v-model="javascriptStr" height="300" lang="javascript" snippets></fei-editor>
       </f-col>
       <f-col span="8">
         <f-tag type="warning">markdown</f-tag>
-        <f-ace-editor v-model="markdownStr" height="300" lang="markdown" snippets></f-ace-editor>
+        <fei-editor v-model="markdownStr" height="300" lang="markdown" snippets></fei-editor>
       </f-col>
     </f-row>
     <br />
     <f-row :gutter="20">
       <f-col span="8">
         <f-tag type="primary">sql</f-tag>
-        <f-ace-editor v-model="sqlStr" height="300" lang="sql" wrap></f-ace-editor>
+        <fei-editor v-model="sqlStr" height="300" lang="sql" wrap></fei-editor>
       </f-col>
       <f-col span="8">
         <f-tag type="success">java</f-tag>
-        <f-ace-editor v-model="javaStr" height="300" lang="java"></f-ace-editor>
+        <fei-editor v-model="javaStr" height="300" lang="java"></fei-editor>
       </f-col>
       <f-col span="8">
         <f-tag type="warning">elixir</f-tag>
-        <f-ace-editor v-model="elixirStr" height="300" lang="elixir"></f-ace-editor>
+        <fei-editor v-model="elixirStr" height="300" lang="elixir"></fei-editor>
       </f-col>
     </f-row>
     <br />
     <f-row :gutter="20">
       <f-col span="8">
         <f-tag type="primary">html</f-tag>
-        <f-ace-editor v-model="htmlStr" height="300" lang="html"></f-ace-editor>
+        <fei-editor v-model="htmlStr" height="300" lang="html"></fei-editor>
       </f-col>
       <f-col span="8">
         <f-tag type="success">css</f-tag>
-        <f-ace-editor v-model="cssStr" height="300" lang="css"></f-ace-editor>
+        <fei-editor v-model="cssStr" height="300" lang="css"></fei-editor>
       </f-col>
       <f-col span="8">
         <f-tag type="warning">stylus</f-tag>
-        <f-ace-editor v-model="stylusStr" height="300" lang="stylus"></f-ace-editor>
+        <fei-editor v-model="stylusStr" height="300" lang="stylus"></fei-editor>
       </f-col>
     </f-row>
   </div>
