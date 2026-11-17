@@ -4,18 +4,21 @@
       <div class="search-modal" @click.stop v-if="visible">
         <div class="search-modal-content" v-click-outside="handleClose">
           <div class="search-modal-input__wrapper">
-            <f-input ref="inputRef" size="large" v-model="query" placeholder="搜索" class="input-item" clearable>
-              <template #prefix>
-                <f-icon name="search" size="22"></f-icon>
-              </template>
-            </f-input>
-          </div>
-          <ul class="search-modal-list" v-no-data:[dataText]="filterList.length===0">
-            <li
-              v-for="item in filterList"
-              :key="item.path"
-              class="list-item"
+            <a-input
+              ref="inputRef"
+              size="large"
+              v-model:value="query"
+              placeholder="搜索"
+              class="input-item"
+              allow-clear
             >
+              <template #prefix>
+                <SearchOutlined style="font-size: 22px" />
+              </template>
+            </a-input>
+          </div>
+          <ul class="search-modal-list" v-no-data:[dataText]="filterList.length === 0">
+            <li v-for="item in filterList" :key="item.path" class="list-item">
               <a @click="handleClick(item.path)">
                 <i :class="`f-iconfont f-icon-${item.icon}`"></i>
                 <span>{{ item.label }}</span>
@@ -29,123 +32,129 @@
   </Teleport>
 </template>
 
-<script>
+<script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import navConf from '../nav.config.json'
 import { useRoute, useRouter } from 'vue-router'
-import { on, off } from 'f-ui-one/src/utils/dom'
+import { SearchOutlined } from '@ant-design/icons-vue'
 
-export default {
-  name: 'Search',
-  setup() {
-    const visible = ref(false)
-    const inputRef = ref(null)
-    const dataText = ref('暂无搜索结果')
-    const query = ref('')
-    const compList = ref([])
-    const $route = useRoute()
-    const $router = useRouter()
+// 简单的DOM事件监听工具函数
+const on = (element: HTMLElement | Document, event: string, handler: (e: Event) => void) => {
+  if (element && event && handler) {
+    element.addEventListener(event, handler as EventListener, false)
+  }
+}
 
-    const filterList = computed(() => {
-      const text = query.value
-      return compList.value.filter(comp => comp.label.includes(text) || comp.path.includes(text))
+const off = (element: HTMLElement | Document, event: string, handler: (e: Event) => void) => {
+  if (element && event && handler) {
+    element.removeEventListener(event, handler as EventListener, false)
+  }
+}
+
+interface ComponentItem {
+  path: string
+  label: string
+  icon: string
+}
+
+const visible = ref(false)
+const inputRef = ref<any>(null)
+const dataText = ref('暂无搜索结果')
+const query = ref('')
+const compList = ref<ComponentItem[]>([])
+const $route = useRoute()
+const $router = useRouter()
+
+const filterList = computed(() => {
+  const text = query.value
+  return compList.value.filter(comp => comp.label.includes(text) || comp.path.includes(text))
+})
+
+function getComponentsOptions() {
+  let routes: any[] = []
+  Object.keys(navConf).forEach(header => {
+    routes = routes.concat((navConf as any)[header])
+  })
+
+  let addComponent = (router: any[]) => {
+    router.forEach(route => {
+      if (route.items) {
+        addComponent(route.items)
+        routes = routes.concat(route.items)
+      } else {
+        // 如果是组件路由
+        if (['guide', 'install', 'start', 'theme', 'color', 'logs'].indexOf(route.name) === -1) {
+          compList.value.push({
+            path: route.path,
+            label: route.desc,
+            icon: route.icon,
+          })
+        }
+      }
     })
+  }
+  addComponent(routes)
+}
 
-    function getComponentsOptions() {
-      let routes = []
-      Object.keys(navConf).forEach((header) => {
-        routes = routes.concat(navConf[header])
-      })
+getComponentsOptions()
 
-      let addComponent = (router) => {
-        router.forEach((route) => {
-          if (route.items) {
-            addComponent(route.items)
-            routes = routes.concat(route.items)
-          } else {
-            // 如果是组件路由
-            if (['guide', 'install', 'start', 'theme', 'color', 'logs'].indexOf(route.name) === -1) {
-              compList.value.push({
-                path: route.path,
-                label: route.desc,
-                icon: route.icon,
-              })
-            }
-          }
-        })
-      }
-      addComponent(routes)
-    }
+function handleOpen() {
+  visible.value = true
+  nextTick(() => {
+    hideScroll()
+    inputRef.value && inputRef.value.focus()
+  })
+}
 
-    getComponentsOptions()
+function handleClick(path: string) {
+  if ($route.path !== path) {
+    $router.push(path)
+  }
+  handleClose()
+}
 
-    function handleOpen() {
-      visible.value = true
-      nextTick(() => {
-        hideScroll()
-        inputRef.value && inputRef.value.focus()
-      })
-    }
+function handleClose() {
+  visible.value = false
+}
 
-    function handleClick(path) {
-      if ($route.path !== path) {
-        $router.push(path)
-      }
+function hideScroll() {
+  document.body.classList.add('fei-popup-parent--hidden')
+}
+
+function showScroll() {
+  query.value = ''
+  document.body.classList.remove('fei-popup-parent--hidden')
+}
+
+// ctrl + f 全局呼出搜索面板
+const keydownEvent = (e: KeyboardEvent) => {
+  const { ctrlKey, code } = e
+  // 面板打开
+  if (visible.value) {
+    if (code === 'Escape') {
+      e.preventDefault()
       handleClose()
     }
-
-    function handleClose() {
-      visible.value = false
+  } else {
+    if (ctrlKey && code === 'KeyF') {
+      e.preventDefault()
+      handleOpen()
     }
-
-    function hideScroll() {
-      document.body.classList.add('fei-popup-parent--hidden')
-    }
-
-    function showScroll() {
-      query.value = ''
-      document.body.classList.remove('fei-popup-parent--hidden')
-    }
-
-
-    // ctrl + f 全局呼出搜索面板
-    const keydownEvent = (e) => {
-      const { ctrlKey, code } = e
-      // 面板打开
-      if (visible.value) {
-        if (code === 'Escape') {
-          e.preventDefault()
-          handleClose()
-        }
-      } else {
-        if (ctrlKey && code === 'KeyF') {
-          e.preventDefault()
-          handleOpen()
-        }
-      }
-    }
-
-    onMounted(() => {
-      on(document, 'keydown', keydownEvent)
-    })
-
-    onBeforeUnmount(() => {
-      off(document, 'keydown', keydownEvent)
-    })
-
-    return {
-      visible,
-      inputRef,
-      query,
-      filterList,
-      dataText,
-      handleOpen,
-      handleClose,
-      showScroll,
-      handleClick,
-    }
-  },
+  }
 }
+
+onMounted(() => {
+  on(document, 'keydown', keydownEvent as any)
+})
+
+onBeforeUnmount(() => {
+  off(document, 'keydown', keydownEvent as any)
+})
+
+// 暴露方法给父组件使用
+defineExpose({
+  handleOpen,
+})
 </script>
 
 <style scoped lang="stylus">

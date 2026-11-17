@@ -4,7 +4,7 @@
       <slot name="source"></slot>
     </div>
     <div class="meta" ref="meta">
-      <div class="description" v-if="$slots.default">
+      <div class="description" v-if="$slots['default']">
         <slot></slot>
       </div>
       <div class="highlight">
@@ -12,66 +12,68 @@
       </div>
       <span class="expand-btn" @click="isExpanded = false">
         收起代码&nbsp;
-        <i :class="iconClass"></i>
+        <UpOutlined v-if="isExpanded" />
+        <DownOutlined v-else />
       </span>
     </div>
-    <div
-      class="demo-block-control"
-      ref="control"
-      @click="isExpanded = !isExpanded"
-    >
-      <i :class="iconClass"></i>&nbsp;
+    <div class="demo-block-control" ref="control" @click="isExpanded = !isExpanded">
+      <UpOutlined v-if="isExpanded" />
+      <DownOutlined v-else />
+      &nbsp;
       <span>{{ controlText }}</span>
     </div>
   </div>
 </template>
 
-<script>
-import { nextTick } from 'vue'
+<script setup lang="ts">
+import { nextTick, ref, computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { UpOutlined, DownOutlined } from '@ant-design/icons-vue'
 
-export default {
-  data() {
-    return {
-      isExpanded: false,
-      fixedControl: false,
-      scrollParent: null,
+const router = useRouter()
+const meta = ref<HTMLElement>()
+
+const isExpanded = ref(false)
+// const fixedControl = ref(false)
+// const scrollParent = ref<HTMLElement | null>(null)
+
+const blockClass = computed(() => {
+  return `demo-${router.currentRoute.value.path.split('/').pop()}`
+})
+
+const controlText = computed(() => {
+  return isExpanded.value ? '隐藏代码' : '显示代码'
+})
+
+const codeArea = computed(() => {
+  return meta.value?.getElementsByClassName('meta')[0] as HTMLElement
+})
+
+const codeAreaHeight = computed(() => {
+  if (meta.value?.getElementsByClassName('description').length) {
+    return (
+      (meta.value.getElementsByClassName('description')[0] as HTMLElement).clientHeight +
+      (meta.value.getElementsByClassName('highlight')[0] as HTMLElement).clientHeight +
+      20
+    )
+  }
+  return (meta.value?.getElementsByClassName('highlight')[0] as HTMLElement)?.clientHeight || 0
+})
+
+watch(isExpanded, val => {
+  if (codeArea.value) {
+    codeArea.value.style.height = val ? `${codeAreaHeight.value + 1}px` : '0'
+  }
+})
+
+onMounted(() => {
+  nextTick(() => {
+    const highlight = meta.value?.getElementsByClassName('highlight')[0] as HTMLElement
+    if (highlight && !meta.value?.getElementsByClassName('description').length) {
+      highlight.style.width = '100%'
     }
-  },
-  computed: {
-    blockClass() {
-      return `demo-${this.$router.currentRoute.value.path.split('/').pop()}`
-    },
-    controlText() {
-      return this.isExpanded ? '隐藏代码' : '显示代码'
-    },
-    codeArea() {
-      return this.$el.getElementsByClassName('meta')[0]
-    },
-    iconClass() {
-      return this.isExpanded ? 'f-iconfont f-icon-caret-up' : 'f-iconfont f-icon-caret-down'
-    },
-    codeAreaHeight() {
-      if (this.$el.getElementsByClassName('description').length > 0) {
-        return this.$el.getElementsByClassName('description')[0].clientHeight +
-          this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
-      }
-      return this.$el.getElementsByClassName('highlight')[0].clientHeight
-    },
-  },
-  watch: {
-    isExpanded(val) {
-      this.codeArea.style.height = val ? `${this.codeAreaHeight + 1}px` : '0'
-    },
-  },
-  mounted() {
-    nextTick(() => {
-      let highlight = this.$el.getElementsByClassName('highlight')[0]
-      if (this.$el.getElementsByClassName('description').length === 0) {
-        highlight.style.width = '100%'
-      }
-    })
-  },
-}
+  })
+})
 </script>
 
 <style lang="stylus">

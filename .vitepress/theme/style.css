@@ -1,0 +1,76 @@
+/* VitePress主题自定义样式 */
+
+/* 代码编辑器样式 */
+.vp-doc .fei-editor {
+  margin: 16px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 代码块样式增强 */
+.vp-doc pre {
+  background-color: var(--vp-code-block-bg);
+  border-radius: 8px;
+}
+
+.vp-doc pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* 自定义组件样式 */
+.demo-container {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg-soft);
+}
+
+.demo-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--vp-c-text-1);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .vp-doc .fei-editor {
+    margin: 12px 0;
+  }
+  
+  .demo-container {
+    margin: 16px 0;
+    padding: 16px;
+  }
+}
+
+/* 深色模式适配 */
+.dark .demo-container {
+  background-color: var(--vp-c-bg-soft);
+  border-color: var(--vp-c-divider);
+}
+
+/* 代码高亮增强 */
+.vp-doc .language-javascript,
+.vp-doc .language-typescript,
+.vp-doc .language-vue {
+  background-color: var(--vp-code-block-bg);
+}
+
+/* 链接样式 */
+.vp-doc a {
+  color: var(--vp-c-brand);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.vp-doc a:hover {
+  color: var(--vp-c-brand-dark);
+  text-decoration: underline;
+}
+
+
+

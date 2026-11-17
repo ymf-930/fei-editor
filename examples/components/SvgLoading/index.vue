@@ -37,34 +37,34 @@ export default {
     Loading10,
     Loading11,
     Loading12,
-    LoadingText
+    LoadingText,
   },
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     width: {
       type: Number,
-      default: 200
+      default: 200,
     },
     height: {
-      type: Number
+      type: Number,
     },
     background: {
       type: String,
-      default: 'transparent'
-    }
+      default: 'transparent',
+    },
   },
   computed: {
     loadingStyle() {
       return {
         width: `${this.width}px`,
         height: `${this.height ? this.height : this.width}px`,
-        background: this.background
+        background: this.background,
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

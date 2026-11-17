@@ -1,49 +1,62 @@
 <template>
-  <div class="side-nav" :class="{'show':showMenu}">
-    <span class="toggle" :style="{left:showMenu?'246px':'0'}" @click="toggleMenu" title="toggle menu">
-      <f-icon :name="showMenu?'left':'right'"></f-icon>
+  <div class="side-nav" :class="{ show: showMenu }">
+    <span
+      class="toggle"
+      :style="{ left: showMenu ? '246px' : '0' }"
+      @click="toggleMenu"
+      title="toggle menu"
+    >
+      <LeftOutlined v-if="showMenu" />
+      <RightOutlined v-else />
     </span>
-    <f-scrollbar v-if="showMenu">
-      <div v-for="title in (Object.keys(data))" class="group-container" :key="title">
+    <div v-if="showMenu" class="scrollbar-container">
+      <div v-for="title in Object.keys(data)" class="group-container" :key="title">
         <p class="side-nav-title">{{ title }}</p>
-        <div class="side-nav-items" v-for="(nav,index) in data[title]" :key="index">
-          <router-link v-if="nav.name" :class="$route.name===nav.name ? 'active' : ''" :to="{name: nav.name}">
+        <div class="side-nav-items" v-for="(nav, index) in (data as any)[title]" :key="index">
+          <router-link
+            v-if="nav.name"
+            :class="$route.name === nav.name ? 'active' : ''"
+            :to="{ name: nav.name }"
+          >
             {{ nav.desc }}
           </router-link>
           <p v-else class="side-nav-group">{{ nav.desc }}</p>
           <div v-for="item in nav.items" :key="item.name">
-            <router-link :to="{name: item.name}" :class="$route.name===item.name ? 'active' : ''"
-                         class="slid-nav-component">
-              <i :class="['f-iconfont','f-icon-'+item.icon]" v-if="item.icon"></i>
-              <div style="position: relative;">{{ item.desc }}
-                <f-icon class="writing-icon" name="Field-time" v-if="item.writing"></f-icon>
+            <router-link
+              :to="{ name: item.name }"
+              :class="$route.name === item.name ? 'active' : ''"
+              class="slid-nav-component"
+            >
+              <i :class="['f-iconfont', 'f-icon-' + item.icon]" v-if="item.icon"></i>
+              <div style="position: relative">
+                {{ item.desc }}
+                <ClockCircleOutlined class="writing-icon" v-if="item.writing" />
               </div>
             </router-link>
           </div>
         </div>
       </div>
-    </f-scrollbar>
+    </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import navConf from '../nav.config.json'
+import { LeftOutlined, RightOutlined, ClockCircleOutlined } from '@ant-design/icons-vue'
 
-export default {
-  props: {
-    showMenu: Boolean,
-  },
-  emits: ['toggle'],
-  data() {
-    return {
-      data: navConf,
-    }
-  },
-  methods: {
-    toggleMenu() {
-      this.$emit('toggle')
-    },
-  },
+interface Props {
+  showMenu: boolean
+}
+
+defineProps<Props>()
+const emit = defineEmits<{
+  toggle: []
+}>()
+
+const data = navConf
+
+const toggleMenu = () => {
+  emit('toggle')
 }
 </script>
 

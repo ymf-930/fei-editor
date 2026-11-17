@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>基础测试</title>
+</head>
+<body>
+  <div id="app">
+    <div id="loading-mask">
+      <h2>FEI-EDITOR</h2>
+      <div>Loading...</div>
+    </div>
+  </div>
+  
+  <script>
+    console.log('Basic test script loaded')
+    
+    // 简单的测试
+    setTimeout(() => {
+      console.log('Hiding loading mask')
+      const loadingMask = document.getElementById('loading-mask')
+      if (loadingMask) {
+        loadingMask.style.display = 'none'
+      }
+      
+      // 显示测试内容
+      const app = document.getElementById('app')
+      if (app) {
+        app.innerHTML = '<h1>基础测试成功</h1><p>如果你能看到这个页面，说明基本的JavaScript执行正常。</p>'
+      }
+    }, 1000)
+  </script>
+</body>
+</html>
+
+
+

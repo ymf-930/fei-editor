@@ -1,87 +1,83 @@
 <template>
   <div ref="scrollBox">
-    <main-header/>
+    <main-header />
     <div class="main-cnt">
-      <side-nav class="nav" :show-menu="showMenu" @toggle="toggleMenu"/>
-      <div class="page-container" :style="{marginLeft:showMenu?'256px':'0'}" ref="containerRef">
+      <side-nav class="nav" :show-menu="showMenu" @toggle="toggleMenu" />
+      <div
+        class="page-container"
+        :style="{ marginLeft: showMenu ? '256px' : '0' }"
+        ref="containerRef"
+      >
         <div class="global-anchor" v-if="anchors.length">
-          <f-scrollbar>
-            <f-anchor :scroll-offset="100" ref="anchorRef">
+          <div class="scrollbar-container">
+            <a-anchor :offset-top="100" ref="anchorRef">
               <template v-for="item in anchors" :key="item.id">
-                <f-anchor-link
-                  :href="`#${item.id}`"
-                  :title="item.text"
-                ></f-anchor-link>
+                <a-anchor-link :href="`#${item.id}`" :title="item.text"></a-anchor-link>
               </template>
-            </f-anchor>
-          </f-scrollbar>
+            </a-anchor>
+          </div>
         </div>
-        <router-view/>
-        <main-footer/>
+        <router-view />
+        <main-footer />
       </div>
-      <f-back-top></f-back-top>
+      <a-back-top></a-back-top>
     </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { watch, ref, onMounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 
 const cfg = require('/package.json')
 
-export default {
-  name: 'App',
-  setup() {
-    const route = useRoute()
-    const containerRef = ref(null)
-    const anchorRef = ref(null)
-    const anchors = ref([])
-    const showMenu = ref(true)
+interface AnchorItem {
+  id: string
+  text: string
+}
 
-    function toggleMenu() {
-      showMenu.value = !showMenu.value
+const route = useRoute()
+const containerRef = ref<HTMLElement>()
+const anchors = ref<AnchorItem[]>([])
+const showMenu = ref(true)
+
+function toggleMenu() {
+  showMenu.value = !showMenu.value
+}
+
+function fetchAnchors() {
+  if (!containerRef.value) return
+  const content = containerRef.value.querySelector('.content.element-doc.content')
+  if (!content) return
+  const h3 = content.querySelectorAll('h3')
+  anchors.value = Array.from(h3).map(item => {
+    const text = item.innerText.trim()
+    const id = item.getAttribute('id')
+    return { id: id || '', text }
+  })
+}
+
+watch(
+  () => route.path,
+  () => {
+    anchors.value = []
+    if (route.meta['desc']) {
+      document.title = route.meta['desc'] + ' | ' + cfg.name.toUpperCase()
+      document.scrollingElement!.scrollTop = 0
     }
-
-    function fetchAnchors() {
-      if (!containerRef.value) return
-      const content = containerRef.value.querySelector('.content.element-doc.content')
-      if (!content) return
-      const h3 = content.querySelectorAll('h3')
-      anchors.value = Array.from(h3).map(item => {
-        const text = item.innerText.trim()
-        const id = item.getAttribute('id')
-        return { id, text }
-      })
-    }
-
-    watch(() => route.path, () => {
-      anchors.value = []
-      if (route.meta.desc) {
-        document.title = route.meta.desc + ' | ' + cfg.name.toUpperCase()
-        document.scrollingElement.scrollTop = 0
-      }
-      nextTick(() => {
-        fetchAnchors()
-      })
-    })
-    onMounted(() => {
-      if (route.meta.desc) {
-        document.title = route.meta.desc + ' | ' + cfg.name.toUpperCase()
-        document.scrollingElement.scrollTop = 0
-      }
+    nextTick(() => {
       fetchAnchors()
     })
+  }
+)
 
-    return {
-      containerRef,
-      anchorRef,
-      anchors,
-      showMenu,
-      toggleMenu,
-    }
-  },
-}
+onMounted(() => {
+  if (route.meta['desc']) {
+    document.title = route.meta['desc'] + ' | ' + cfg.name.toUpperCase()
+    document.scrollingElement!.scrollTop = 0
+  }
+  fetchAnchors()
+})
 </script>
 
 <style lang="stylus">

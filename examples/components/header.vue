@@ -3,7 +3,7 @@
     <div class="header-container">
       <div class="left" style="width: 580px" flex="main:justify cross:center">
         <div class="logo">
-          <img src="../assets/images/logo/fei-editor.svg" class="icon" alt="icon"/>
+          <img src="../assets/images/logo/fei-editor.svg" class="icon" alt="icon" />
           <div class="text">
             <h2>FEI-EDITOR</h2>
             <p>code editor for vue3</p>
@@ -11,41 +11,33 @@
         </div>
       </div>
       <div class="link-box">
-        <f-tooltip content="搜索组件">
-          <span class="search" @click="openSearch"><i class="f-iconfont f-icon-search"></i></span>
-        </f-tooltip>
+        <a-tooltip title="搜索组件">
+          <span class="search" @click="openSearch"><SearchOutlined /></span>
+        </a-tooltip>
         <router-link :to="{ name: 'guide' }" class="active">指南</router-link>
-        <a
-          href="https://gitee.com/ymf930/fei-editor"
-          class="gitee"
-          target="_blank"
-        >Gitee</a>
-        <a
-          href="https://github.com/ymf-930/fei-editor"
-          class="github"
-          target="_blank"
-        >GitHub</a>
+        <a href="https://gitee.com/ymf930/fei-editor" class="gitee" target="_blank">Gitee</a>
+        <a href="https://github.com/ymf-930/fei-editor" class="github" target="_blank">GitHub</a>
       </div>
       <search ref="searchRef"></search>
     </div>
   </header>
 </template>
 
-<script>
-import Search from './search'
+<script setup lang="ts">
+import { ref } from 'vue'
+import Search from './search.vue'
+import { SearchOutlined } from '@ant-design/icons-vue'
 
-export default {
-  name: 'MainHeader',
-  components: { Search },
-  methods: {
-    openSearch() {
-      this.$refs.searchRef.handleOpen()
-    },
-    handleCommand(name) {
-      this.$util.open(`https://github.com/ymf-930/${name}`, true)
-    },
-  },
+const searchRef = ref<InstanceType<typeof Search>>()
+
+const openSearch = () => {
+  searchRef.value?.handleOpen()
 }
+
+// const handleCommand = (name: string) => {
+//   // 移除不存在的$util，使用原生方法
+//   window.open(`https://github.com/ymf-930/${name}`, '_blank')
+// }
 </script>
 
 <style lang="stylus" scoped>

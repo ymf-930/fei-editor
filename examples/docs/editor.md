@@ -1,342 +1,170 @@
-## Editor 编辑器
+# Editor 编辑器
 
-### 基础用法
+## 基础用法
 
 代码编辑器，默认支持多种语法，内部实现了按需引入，使用的时候只需要设置lang就可以，具体参数配置看以下代码
 
-::: demo
+### 基础示例
 
-```html
-
+```vue
 <template>
-  <f-row>
-    <f-col span="12">
-      <fei-editor
-          v-model="jsonStr"
-          lang="json"
-          width="100%"
-          height="300"
-          :theme="theme"
-          :readonly="readonly"
-          :font-size="fontSize"
-      ></fei-editor>
-    </f-col>
-    <f-col span="12">
-      <div class="pl-15">
-        <div class="pl-15">
-          <p>
-            文字大小：
-            <f-input-number v-model="fontSize" :min="12" :max="16" size="small" />
-            只读：
-            <f-switch v-model="readonly" />
-          </p>
-          <p>皮肤：
-            <f-radio-group v-model="theme">
-          <div>
-            <f-radio v-for="item in themeList" :key="item" :label="item"></f-radio>
-          </div>
-          </f-radio-group>
-          </p>
-          <div style="padding: 8px 0;">
-            <f-button type="primary" @click="modal = true">弹窗编辑</f-button>
-            <f-button type="primary" @click="handleZip">压缩</f-button>
-            <f-button type="primary" @click="handleFormat">格式化</f-button>
-            <f-modal v-model="modal" title="弹窗编辑" transition-name="fade-in-linear">
-              <fei-editor v-model="jsonStr" height="400"></fei-editor>
-            </f-modal>
-          </div>
-        </div>
-      </div>
-    </f-col>
-  </f-row>
+  <fei-editor
+    v-model="jsonStr"
+    lang="json"
+    width="100%"
+    height="300"
+    :theme="theme"
+    :readonly="readonly"
+    :font-size="fontSize"
+  />
 </template>
-<script>
-  const jsonData = {
-    title: '测试json数据',
-    child: [
-      {
-        title: '子项名称1',
-        desc: '子项描述1'
-      },
-      {
-        title: '子项名称2',
-        desc: '子项描述2'
-      }
-    ]
-  }
 
-  export default {
-    data() {
-      return {
-        jsonStr: JSON.stringify(jsonData, null, 2),
-        modal: false,
-        readonly: false,
-        theme: 'chrome',
-        fontSize: 12,
-        themeList: [
-          'chrome',
-          'xcode',
-          'clouds',
-          'crimson_editor',
-          'sqlserver',
-          'github',
-          'textmate',
-          'tomorrow',
-          'solarized_light',
-          'cobalt',
-          'dracula',
-          'monokai',
-          'solarized_dark',
-          'terminal',
-          'vibrant_ink'
-        ],
-      }
-    },
-    methods: {
-      handleZip() {
-        this.jsonStr = JSON.stringify(JSON.parse(this.jsonStr), null, 0)
-      },
-      handleFormat() {
-        this.jsonStr = JSON.stringify(JSON.parse(this.jsonStr), null, 2)
-      }
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const jsonStr = ref('{"name": "fei-editor", "version": "0.0.2"}')
+const theme = ref('chrome')
+const readonly = ref(false)
+const fontSize = ref(12)
 </script>
 ```
 
-:::
+## 支持的语言
 
-### 多种语法支持
+- JavaScript
+- JSON
+- HTML
+- CSS
+- SQL
+- Java
+- Markdown
+- Elixir
+- Stylus
 
-支持多种常用语法设置，默认是按需加载
+## 支持的主题
 
-::: demo
+- chrome
+- xcode
+- clouds
+- crimson_editor
+- sqlserver
+- github
+- textmate
+- tomorrow
+- solarized_light
+- cobalt
+- dracula
+- monokai
+- solarized_dark
+- terminal
+- vibrant_ink
 
-```html
+## 属性配置
 
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| v-model | 绑定值 | string | — | — |
+| lang | 语言类型 | string | javascript/json/html/css/sql/java/markdown/elixir/stylus | json |
+| theme | 主题 | string | chrome/xcode/clouds/crimson_editor/sqlserver/github/textmate/tomorrow/solarized_light/cobalt/dracula/monokai/solarized_dark/terminal/vibrant_ink | chrome |
+| height | 编辑器高度 | string/number | — | 350 |
+| width | 编辑器宽度 | string/number | — | 100% |
+| fontSize | 字体大小 | number | — | 12 |
+| readonly | 是否只读 | boolean | — | false |
+| wrap | 是否换行 | boolean | — | false |
+| snippets | 是否启用代码片段 | boolean | — | true |
+| options | 其他配置项 | object | — | — |
+
+## 事件
+
+| 事件名称 | 说明 | 回调参数 |
+|----------|------|----------|
+| change | 内容改变时触发 | (value: string) |
+| blur | 失去焦点时触发 | (event: Event) |
+| init | 编辑器初始化完成时触发 | (editor: EditorInstance) |
+
+## 方法
+
+| 方法名 | 说明 | 参数 |
+|--------|------|------|
+| getValue | 获取编辑器内容 | — |
+
+## 高级用法
+
+### 自定义配置
+
+```vue
+<template>
+  <fei-editor
+    v-model="code"
+    lang="javascript"
+    :options="editorOptions"
+    @init="onEditorInit"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const code = ref('console.log("Hello World!")')
+const editorOptions = ref({
+  enableBasicAutocompletion: true,
+  enableSnippets: true,
+  enableLiveAutocompletion: true,
+  showLineNumbers: true,
+  showGutter: true,
+  highlightActiveLine: true
+})
+
+const onEditorInit = (editor) => {
+  console.log('Editor initialized:', editor)
+}
+</script>
+```
+
+### 动态切换语言和主题
+
+```vue
 <template>
   <div>
-    <f-row :gutter="20">
-      <f-col span="8">
-        <f-tag type="primary">json</f-tag>
-        <fei-editor v-model="jsonStr" height="300" lang="json" snippets></fei-editor>
-      </f-col>
-      <f-col span="8">
-        <f-tag type="success">javascript</f-tag>
-        <fei-editor v-model="javascriptStr" height="300" lang="javascript" snippets></fei-editor>
-      </f-col>
-      <f-col span="8">
-        <f-tag type="warning">markdown</f-tag>
-        <fei-editor v-model="markdownStr" height="300" lang="markdown" snippets></fei-editor>
-      </f-col>
-    </f-row>
-    <br />
-    <f-row :gutter="20">
-      <f-col span="8">
-        <f-tag type="primary">sql</f-tag>
-        <fei-editor v-model="sqlStr" height="300" lang="sql" wrap></fei-editor>
-      </f-col>
-      <f-col span="8">
-        <f-tag type="success">java</f-tag>
-        <fei-editor v-model="javaStr" height="300" lang="java"></fei-editor>
-      </f-col>
-      <f-col span="8">
-        <f-tag type="warning">elixir</f-tag>
-        <fei-editor v-model="elixirStr" height="300" lang="elixir"></fei-editor>
-      </f-col>
-    </f-row>
-    <br />
-    <f-row :gutter="20">
-      <f-col span="8">
-        <f-tag type="primary">html</f-tag>
-        <fei-editor v-model="htmlStr" height="300" lang="html"></fei-editor>
-      </f-col>
-      <f-col span="8">
-        <f-tag type="success">css</f-tag>
-        <fei-editor v-model="cssStr" height="300" lang="css"></fei-editor>
-      </f-col>
-      <f-col span="8">
-        <f-tag type="warning">stylus</f-tag>
-        <fei-editor v-model="stylusStr" height="300" lang="stylus"></fei-editor>
-      </f-col>
-    </f-row>
+    <a-select v-model:value="currentLang" @change="onLangChange">
+      <a-select-option value="javascript">JavaScript</a-select-option>
+      <a-select-option value="json">JSON</a-select-option>
+      <a-select-option value="html">HTML</a-select-option>
+      <a-select-option value="css">CSS</a-select-option>
+    </a-select>
+    
+    <a-select v-model:value="currentTheme" @change="onThemeChange">
+      <a-select-option value="chrome">Chrome</a-select-option>
+      <a-select-option value="monokai">Monokai</a-select-option>
+      <a-select-option value="dracula">Dracula</a-select-option>
+    </a-select>
+    
+    <fei-editor
+      v-model="code"
+      :lang="currentLang"
+      :theme="currentTheme"
+      height="400"
+    />
   </div>
 </template>
-<script>
-  const jsonData = {
-    title: '测试json数据',
-    child: [
-      {
-        title: '子项名称1',
-        desc: '子项描述1'
-      },
-      {
-        title: '子项名称2',
-        desc: '子项描述2'
-      }
-    ]
-  }
 
-  const javascriptStr = `let a = 0;
-function add(){
-  a ++;
+<script setup>
+import { ref } from 'vue'
+
+const code = ref('')
+const currentLang = ref('javascript')
+const currentTheme = ref('chrome')
+
+const onLangChange = () => {
+  // 语言切换逻辑
 }
-add();
-console.log(a);`
 
-  const markdownStr = `# 一级标题
-
-## Markdown模式编辑
-
-  - 编辑器可以支持多种语言
-  - 支持多种样式皮肤
-  - 支持多种参数设置
-
-## 安装
-
-\`\`\`bash
-
-# 安装依赖
-npm install b-code-editor
-
-\`\`\`
-`
-
-  const sqlStr = 'SELECT * from sys_user where user_name = \'test\''
-
-  const javaStr = `public class Test {
-    public static void main(String[] args) {
-        System.out.println("hello word");
-    }
-}`
-
-  const elixirStr = `{
- "query": {
-      "bool": {
-        {{#gatherDept}}
-        "filter": {
-          {{#isDomain}}
-          "prefix": {
-            "create_dept": "{{gatherDept}}"
-          }
-          {{/isDomain}}
-          {{^isDomain}}
-          "term": {
-            "create_dept": {
-              "value": "{{gatherDept}}"
-            }
-          }
-          {{/isDomain}}
-        },
-        {{/gatherDept}}
-        "must": [
-          {
-            "term": {
-              "flag": {
-                "value": "1"
-              }
-            }
-          }
-        ]
-      }
-    },
-  "size": 0,
-  "aggs": {
-    "date_filter": {
-      "filter": {
-        "range": {
-          "create_date": {
-            "format": "yyyy-MM",
-            "gte": "{{startDate}}",
-            "lte": "{{endDate}}"
-          }
-        }
-      },
-      "aggs": {
-        "month_count": {
-          "date_histogram": {
-            "field": "create_date",
-            "format": "yyyy-MM",
-            "calendar_interval": "month",
-            "min_doc_count": 0,
-            "extended_bounds": {
-              "min": "{{startDate}}",
-              "max": "{{endDate}}"
-            }
-          }
-        }
-      }
-    }
-  }
-}`
-
-  const htmlStr = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>测试</title>
-<style>
-  h1{
-    color:red;
-  }
-</style>
-</head>
-<body>
-    <h1>我是一个标题</h1>
-    <p>我是一个段落。</p>
-</body>
-</html>`
-
-  const cssStr = `.test{
-  font-size: 12px;
-}`
-
-  const stylusStr = `.test{
-  font-size: 12px;
-  .child{
-    border: 1px solid #1089ff;
-  }
-}`
-
-  export default {
-    data() {
-      return {
-        jsonStr: JSON.stringify(jsonData, null, 2),
-        javascriptStr: javascriptStr,
-        markdownStr: markdownStr,
-        sqlStr: sqlStr,
-        javaStr: javaStr,
-        elixirStr: elixirStr,
-        htmlStr: htmlStr,
-        cssStr: cssStr,
-        stylusStr: stylusStr
-      }
-    }
-  }
+const onThemeChange = () => {
+  // 主题切换逻辑
+}
 </script>
 ```
 
-:::
 
-### Props
 
-| 参数      | 说明    | 类型      | 可选值       | 默认值   |
-|---------- |-------- |---------- |-------------  |-------- |
-| value    | 绑定数据，可用v-model   | String  |  —   |   0  |
-| lang   | 语言模式   | String  |  json/javascript/java/sql/elixir/html/css...   |   json  |
-| theme   | 皮肤样式   | String  | 'chrome','xcode','clouds', 'dracula'等  |   chrome  |
-| width    | 默认编辑器宽度  | String  |  —   |   100%  |
-| height    | 默认编辑器高度  | String  |  —   |   400px  |
-| font-size | 字符大小   | Number  | -  |   12  |
-| readonly   | 只读模式   | Boolean  | -  |   false  |
-| wrap | 代码换行   | Boolean  | -  |   false  |
-| snippets |  代码片段提示自动填充   | Boolean  | -  | false  |
-| options    | 其他配置项  | Object  |  —  |  —  |
-| styles    | 样式覆盖，可以设置无边框间距等，如需要更改不同主题的颜色，则需要一些额外的样式覆盖  | Object  |  —  |  —  |
 
-### Events
-
-| 事件名      | 说明    | 返回值      |
-|---------- |-------- |---------- |
-| change    | 输入项改变事件   | value  |
-| init   | 默认初始化完毕后调用   | -  |
