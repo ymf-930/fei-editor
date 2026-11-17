@@ -10,6 +10,9 @@ export default defineConfig({
   // 文档源独立存放，避免 VitePress 扫描整个项目根目录
   srcDir: 'docs-src',
 
+  // 站点图标，与 fei-ui-design 保持一致
+  head: [['link', { rel: 'icon', href: '/fei-editor/favicon.ico' }]],
+
   // README 中的 LICENSE 等链接不在文档站内，忽略死链检查
   ignoreDeadLinks: true,
   
