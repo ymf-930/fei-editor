@@ -17,6 +17,7 @@ docs/
 
 # Vite temp files
 vite.config.ts.timestamp-*.mjs
+.vitepress/*.timestamp-*.mjs
 
 # Generated files
 *.d.ts
